@@ -8,7 +8,8 @@ import java.util.ResourceBundle;
 public class TestConnexionJdbc {
 
 	public static void main(String[] args) {
-		ResourceBundle monFichierConf = ResourceBundle.getBundle("config");
+		//ResourceBundle monFichierConf = ResourceBundle.getBundle("database");
+		ResourceBundle monFichierConf = ResourceBundle.getBundle("databaseCleverCloud");
 		String driverName = monFichierConf.getString("database.driver");
 		String url = monFichierConf.getString("database.url");
 		String user = monFichierConf.getString("database.user");
