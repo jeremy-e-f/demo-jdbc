@@ -9,14 +9,9 @@ public class TestConfiguration {
 		String driverName = monFichierConf.getString("database.driver");
 		System.out.println(driverName);
 		
-		String urlAdress = monFichierConf.getString("database.url");
-		System.out.println(urlAdress);
-		
-		String userName = monFichierConf.getString("database.user");
-		System.out.println(userName);
-		
-		String password = monFichierConf.getString("database.password");
-		System.out.println(password);
+		for(String key : monFichierConf.keySet()){
+			System.out.println(key+" = "+monFichierConf.getString(key));
+		}
 	}
 
 }

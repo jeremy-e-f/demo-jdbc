@@ -4,4 +4,22 @@
   <artifactId>demo-jdbc</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>demo-jdbc</name>
+  
+    <properties>
+      <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+    </properties>
+  
+     <build>
+       <pluginManagement>
+           <plugins>
+               <plugin>
+                   <artifactId>maven-compiler-plugin</artifactId>
+                   <configuration>
+                       <source>1.8</source>
+                       <target>1.8</target>
+                   </configuration>
+               </plugin>
+           </plugins>
+       </pluginManagement>
+    </build>
 </project>
