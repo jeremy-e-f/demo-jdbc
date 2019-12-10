@@ -6,20 +6,26 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ConnectionJDBC {
+	
+	private static String nomFichierConfig= "database";
 
-	public static Connection getInstance(){
-		//ResourceBundle monFichierConf = ResourceBundle.getBundle("databaseCleverCloud");
-		ResourceBundle monFichierConf = ResourceBundle.getBundle("database");
+	static {
+		ResourceBundle monFichierConf = ResourceBundle.getBundle(nomFichierConfig);
 		String driverName = monFichierConf.getString("database.driver");
-		String url = monFichierConf.getString("database.url");
-		String user = monFichierConf.getString("database.user");
-		String password = monFichierConf.getString("database.password");
-				
 		try {
 			Class.forName(driverName);
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public static Connection getInstance(){
+		//ResourceBundle monFichierConf = ResourceBundle.getBundle("databaseCleverCloud");
+		ResourceBundle monFichierConf = ResourceBundle.getBundle(nomFichierConfig);
+		String url = monFichierConf.getString("database.url");
+		String user = monFichierConf.getString("database.user");
+		String password = monFichierConf.getString("database.password");
+				
 		Connection connection= null;
 		try {
 			connection= DriverManager.getConnection(url,user,password);
