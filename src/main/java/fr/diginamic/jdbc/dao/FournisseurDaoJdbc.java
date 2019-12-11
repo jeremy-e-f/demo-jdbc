@@ -46,10 +46,9 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 
 		return listeFournisseurs;
 	}
-
+	
 	@Override
 	public void insert(Fournisseur fournisseur) {
-		
 		Connection maConnexion= ConnectionJDBC.getInstance();
 		try {
 			if(fournisseur== null){
@@ -57,7 +56,7 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 			}
 			
 			Statement monStatement = maConnexion.createStatement();
-			monStatement.executeUpdate("INSERT INTO fournisseur(id,nom) VALUES("+fournisseur.getId()+",'"+fournisseur.getNom()+"');");
+			monStatement.executeUpdate("INSERT INTO fournisseur(id,nom) VALUES("+fournisseur.getId()+",'"+fournisseur.getNom().replaceAll("'", "''")+"');");
 			
 		} catch (SQLException e) {
 			try {
@@ -88,7 +87,7 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 			}
 			
 			Statement monStatement = maConnexion.createStatement();
-			nbLigne= monStatement.executeUpdate("UPDATE fournisseur SET nom = '"+nouveauNom+"' WHERE nom = '"+ancienNom+"';");
+			nbLigne= monStatement.executeUpdate("UPDATE fournisseur SET nom = '"+nouveauNom.replaceAll("'", "''")+"' WHERE nom = '"+ancienNom.replaceAll("'", "''")+"';");
 			if(nbLigne<= 0){
 				throw new SQLException("Aucune ligne mise à jour!");
 			}

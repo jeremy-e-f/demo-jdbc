@@ -31,4 +31,10 @@ public class Fournisseur {
 		return "Fournisseur [id=" + id + ", nom=" + nom + "]";
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Fournisseur && ((Fournisseur)o).getId() == this.getId(); 
+		
+	}
+	
 }

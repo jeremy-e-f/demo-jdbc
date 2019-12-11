@@ -4,7 +4,7 @@ import fr.diginamic.jdbc.dao.FournisseurDao;
 import fr.diginamic.jdbc.dao.FournisseurDaoJdbc;
 import fr.diginamic.jdbc.entites.Fournisseur;
 
-public class TestJdbcDao {
+public class TestJdbcFournisseur {
 
 	public static void main(String[] args) {
 		FournisseurDao dao= new FournisseurDaoJdbc();
