@@ -50,12 +50,13 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 	@Override
 	public void insert(Fournisseur fournisseur) {
 		Connection maConnexion= ConnectionJDBC.getInstance();
+		Statement monStatement= null;
 		try {
 			if(fournisseur== null){
 				throw new SQLException("Valeur nulle!");
 			}
 			
-			Statement monStatement = maConnexion.createStatement();
+			monStatement = maConnexion.createStatement();
 			monStatement.executeUpdate("INSERT INTO fournisseur(id,nom) VALUES("+fournisseur.getId()+",'"+fournisseur.getNom().replaceAll("'", "''")+"');");
 			
 		} catch (SQLException e) {
@@ -67,6 +68,7 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 			}
 		} finally {
 			try {
+				monStatement.close();
 				maConnexion.commit();
 				maConnexion.close();
 			} catch (SQLException e) {
@@ -80,13 +82,14 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 	public int update(String ancienNom, String nouveauNom) {
 		
 		Connection maConnexion= ConnectionJDBC.getInstance();
+		Statement monStatement= null;
 		int nbLigne= 0;
 		try {
 			if(nouveauNom== null || ancienNom== null){
 				throw new SQLException("Valeur nulle!");
 			}
 			
-			Statement monStatement = maConnexion.createStatement();
+			monStatement = maConnexion.createStatement();
 			nbLigne= monStatement.executeUpdate("UPDATE fournisseur SET nom = '"+nouveauNom.replaceAll("'", "''")+"' WHERE nom = '"+ancienNom.replaceAll("'", "''")+"';");
 			if(nbLigne<= 0){
 				throw new SQLException("Aucune ligne mise à jour!");
@@ -101,6 +104,7 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 			}
 		} finally {
 			try {
+				monStatement.close();
 				maConnexion.commit();
 				maConnexion.close();
 			} catch (SQLException e) {
@@ -114,13 +118,14 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 	@Override
 	public boolean delete(Fournisseur fournisseur) {
 		Connection maConnexion= ConnectionJDBC.getInstance();
+		Statement monStatement= null;
 		int retour= 0;
 		try {
 			if(fournisseur== null){
 				throw new SQLException("Valeur nulle!");
 			}
 			
-			Statement monStatement = maConnexion.createStatement();
+			monStatement = maConnexion.createStatement();
 			retour= monStatement.executeUpdate("DELETE FROM fournisseur WHERE id = "+fournisseur.getId()+";");
 			
 		} catch (SQLException e) {
@@ -132,6 +137,7 @@ public class FournisseurDaoJdbc implements FournisseurDao{
 			}
 		} finally {
 			try {
+				monStatement.close();
 				maConnexion.commit();
 				maConnexion.close();
 			} catch (SQLException e) {

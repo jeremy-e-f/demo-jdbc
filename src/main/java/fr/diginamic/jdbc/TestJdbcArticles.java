@@ -15,7 +15,7 @@ public class TestJdbcArticles {
 	public static void main(String[] args) {
 		ArticleDao daoA= new ArticleDaoJdbc();
 		
-		/* Ajout d'un nouvel article */
+		/* Ajout d'un ouveau fournisseur */
 		FournisseurDao daoF= new FournisseurDaoJdbc();
 		Fournisseur nouvFourn= new Fournisseur(5, "La Maison de la Peinture");
 		daoF.insert(nouvFourn);
@@ -55,6 +55,7 @@ public class TestJdbcArticles {
 				daoA.delete(art);
 			}
 		}
+		/* Supression du fournisseur */
 		daoF.delete(nouvFourn);
 		
 	}

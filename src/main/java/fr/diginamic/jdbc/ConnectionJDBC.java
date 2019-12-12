@@ -1,39 +1,49 @@
 package fr.diginamic.jdbc;
 
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ConnectionJDBC {
-	
-	private static String nomFichierConfig= "database";
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-	static {
-		ResourceBundle monFichierConf = ResourceBundle.getBundle(nomFichierConfig);
-		String driverName = monFichierConf.getString("database.driver");
-		try {
-			Class.forName(driverName);
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-	}
+public class ConnectionJDBC {
+	/* Nom du fichier .properties, contenant les paramètres dans src/main/ressources */
+	private final static String NOMFICHIERCONFIG= "database";
+
+	/* Pool de connexion */
+	private final static ComboPooledDataSource CPDS;
 	
-	public static Connection getInstance(){
-		//ResourceBundle monFichierConf = ResourceBundle.getBundle("databaseCleverCloud");
-		ResourceBundle monFichierConf = ResourceBundle.getBundle(nomFichierConfig);
+	static{
+		/* On récupère les paramètres de connexion dans le fichier config */
+		ResourceBundle monFichierConf = ResourceBundle.getBundle(NOMFICHIERCONFIG);
+		String driverName = monFichierConf.getString("database.driver");
 		String url = monFichierConf.getString("database.url");
 		String user = monFichierConf.getString("database.user");
 		String password = monFichierConf.getString("database.password");
-				
-		Connection connection= null;
+		
+		
+		/* Création d'un Pool de connexion */
+		CPDS= new ComboPooledDataSource();
 		try {
-			connection= DriverManager.getConnection(url,user,password);
-			connection.setAutoCommit(false);
-		} catch (SQLException e) {
+			CPDS.setDriverClass(driverName);
+		} catch (PropertyVetoException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
-		return connection;
+		CPDS.setJdbcUrl(url);
+		CPDS.setUser(user);
+		CPDS.setPassword(password);
+	}
+	
+	public static Connection getInstance(){
+		/* On récupère une instance de connection */
+		try {
+			return CPDS.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			throw new RuntimeException("Impossible de récupérer une nouvelle connexion à la base de données");
+		}
 	}
 	
 }

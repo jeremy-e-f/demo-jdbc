@@ -2,12 +2,20 @@ package fr.diginamic.jdbc.entites;
 
 public class Article {
 	
-	private int id;
-	private String ref;
-	private String designation;
-	private float prix;
-	private Fournisseur fournisseur;
+	private int id; 					/** ID */
+	private String ref; 				/** Référence de l'article */
+	private String designation; 		/** Désignation de l'article */
+	private float prix; 				/** Prix de l'article */
+	private Fournisseur fournisseur; 	 /** Fournisseur de l'article */
 	
+	/**
+	 * Constructeur
+	 * @param id
+	 * @param ref
+	 * @param designation
+	 * @param prix
+	 * @param fournisseur
+	 */
 	public Article(int id, String ref, String designation, float prix, Fournisseur fournisseur) {
 		this.id = id;
 		this.ref = ref;
@@ -16,6 +24,9 @@ public class Article {
 		this.fournisseur = fournisseur;
 	}
 
+	/**
+	 * Getters et setters
+	 */
 	public int getId() {
 		return id;
 	}

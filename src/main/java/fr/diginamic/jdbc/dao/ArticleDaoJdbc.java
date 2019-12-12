@@ -80,12 +80,13 @@ public class ArticleDaoJdbc implements ArticleDao{
 	@Override
 	public void insert(Article article) {
 		Connection maConnexion= ConnectionJDBC.getInstance();
+		Statement monStatement = null;
 		try {
 			if(article== null){
 				throw new SQLException("Valeur nulle!");
 			}
 			
-			Statement monStatement = maConnexion.createStatement();
+			monStatement = maConnexion.createStatement();
 			monStatement.executeUpdate("INSERT INTO article(id,ref,designation,prix,id_fourn) VALUES("+article.getId()+
 					",'"+article.getRef().replaceAll("'", "''")+
 					"','"+article.getDesignation().replaceAll("'", "''")+
@@ -103,6 +104,7 @@ public class ArticleDaoJdbc implements ArticleDao{
 			}
 		} finally {
 			try {
+				monStatement.close();
 				maConnexion.commit();
 				maConnexion.close();
 			} catch (SQLException e) {
@@ -116,12 +118,13 @@ public class ArticleDaoJdbc implements ArticleDao{
 	public int update(Article article) {
 		int nbLigne= 0;
 		Connection maConnexion= ConnectionJDBC.getInstance();
+		Statement monStatement = null;
 		try {
 			if(article== null){
 				throw new SQLException("Valeur nulle!");
 			}
 			
-			Statement monStatement = maConnexion.createStatement();
+			monStatement = maConnexion.createStatement();
 			nbLigne= monStatement.executeUpdate("UPDATE article SET ref = '"+article.getRef().replaceAll("'", "''")+
 					"', designation = '"+article.getDesignation().replaceAll("'", "''")+
 					"', prix = "+article.getPrix()+
@@ -139,6 +142,7 @@ public class ArticleDaoJdbc implements ArticleDao{
 			}
 		} finally {
 			try {
+				monStatement.close();
 				maConnexion.commit();
 				maConnexion.close();
 			} catch (SQLException e) {
@@ -153,23 +157,27 @@ public class ArticleDaoJdbc implements ArticleDao{
 	public boolean delete(Article article) {
 		int nbLigne= 0;
 		Connection maConnexion= ConnectionJDBC.getInstance();
+		Statement monStatement = null;
 		try {
 			if(article== null){
 				throw new SQLException("Valeur nulle!");
 			}
 			
-			Statement monStatement = maConnexion.createStatement();
+			monStatement = maConnexion.createStatement();
 			nbLigne= monStatement.executeUpdate("DELETE FROM article WHERE id = "+article.getId()+";");
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+			LOG.error(e.getMessage());
 			try {
 				maConnexion.rollback();
 			} catch (SQLException e1) {
-				e.printStackTrace();
-				LOG.error(e.getMessage());
+				e1.printStackTrace();
+				LOG.error(e1.getMessage());
 			}
 		} finally {
 			try {
+				monStatement.close();
 				maConnexion.commit();
 				maConnexion.close();
 			} catch (SQLException e) {
@@ -180,7 +188,4 @@ public class ArticleDaoJdbc implements ArticleDao{
 		return nbLigne == 0;
 	}
 	
-	
-	
-
 }
